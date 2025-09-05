@@ -546,117 +546,121 @@ export default function MonthlyGoals() {
                                                         </button>
                                                     </div>
                                                     
-                                                    <div className="mt-3 md:mt-4">
-                                                        <h4 className="font-bold text-gray-700 text-xs md:text-sm mb-1 md:mb-2">Add Subtask</h4>
-                                                        <div className="flex space-x-1 md:space-x-2">
-                                                            <input
-                                                                type="text"
-                                                                value={subtaskInputs[goal._id]?.text || ''}
-                                                                onChange={(e) => setSubtaskInputs({ ...subtaskInputs, [goal._id]: { ...subtaskInputs[goal._id], text: e.target.value } })}
-                                                                placeholder="Enter subtask..."
-                                                                className="w-full p-1 md:p-2 text-xs md:text-sm border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
-                                                            />
-                                                            <input
-                                                                type="date"
-                                                                value={subtaskInputs[goal._id]?.date || ''}
-                                                                onChange={(e) => setSubtaskInputs({ ...subtaskInputs, [goal._id]: { ...subtaskInputs[goal._id], date: e.target.value } })}
-                                                                className="w-full p-1 md:p-2 text-xs md:text-sm border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
-                                                            />
-                                                            <button
-                                                                type="button"
-                                                                onClick={() => handleAddSubtask(goal._id)}
-                                                                className="p-1 md:p-2 bg-blue-500 text-white rounded-md md:rounded-lg hover:bg-blue-600 transition duration-200 text-xs"
-                                                            >
-                                                                Add
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    {goal.subtasks.length > 0 && expandedGoals[goal._id] && (
-                                                        <div className="mt-3 md:mt-4 overflow-x-auto">
-                                                            <h4 className="font-bold text-gray-700 text-xs md:text-sm mb-1 md:mb-2">Subtask List</h4>
-                                                            <table className="min-w-full bg-white rounded-lg border border-gray-200 text-xs">
-                                                                <thead>
-                                                                    <tr className="bg-gray-100 text-left font-semibold text-gray-600 uppercase tracking-wider">
-                                                                        <th className="py-1 px-2 md:py-2 md:px-4">Subtask</th>
-                                                                        <th className="py-1 px-2 md:py-2 md:px-4">Date</th>
-                                                                        <th className="py-1 px-2 md:py-2 md:px-4 text-center">Done</th>
-                                                                        <th className="py-1 px-2 md:py-2 md:px-4 text-center">Actions</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    {goal.subtasks.map((subtask, index) => (
-                                                                        <tr key={index} className="border-t border-gray-200">
-                                                                            {editingSubtaskId === `${goal._id}-${index}` ? (
-                                                                                <>
-                                                                                    <td className="py-1 px-2 md:py-2 md:px-4">
-                                                                                        <input
-                                                                                            type="text"
-                                                                                            value={editSubtaskText}
-                                                                                            onChange={(e) => setEditSubtaskText(e.target.value)}
-                                                                                            className="w-full p-0.5 md:p-1 text-xs border border-gray-400 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 text-gray-900"
-                                                                                        />
-                                                                                    </td>
-                                                                                    <td className="py-1 px-2 md:py-2 md:px-4">
-                                                                                        <input
-                                                                                            type="date"
-                                                                                            value={editSubtaskDate}
-                                                                                            onChange={(e) => setEditSubtaskDate(e.target.value)}
-                                                                                            className="w-full p-0.5 md:p-1 text-xs border border-gray-400 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 text-gray-900"
-                                                                                        />
-                                                                                    </td>
-                                                                                    <td></td>
-                                                                                    <td className="py-1 px-2 md:py-2 md:px-4 flex justify-center space-x-1">
-                                                                                        <button
-                                                                                            type="button"
-                                                                                            onClick={() => handleSaveSubtaskEdit(goal._id, index)}
-                                                                                            className="p-1 text-[10px] bg-indigo-500 text-white rounded-md hover:bg-indigo-600"
-                                                                                        >
-                                                                                            Save
-                                                                                        </button>
-                                                                                        <button
-                                                                                            type="button"
-                                                                                            onClick={handleCancelSubtaskEdit}
-                                                                                            className="p-1 text-[10px] bg-gray-500 text-white rounded-md hover:bg-gray-600"
-                                                                                        >
-                                                                                            Cancel
-                                                                                        </button>
-                                                                                    </td>
-                                                                                </>
-                                                                            ) : (
-                                                                                <>
-                                                                                    <td className="py-1 px-2 md:py-2 md:px-4 text-xs md:text-sm text-gray-700">{subtask.text}</td>
-                                                                                    <td className="py-1 px-2 md:py-2 md:px-4 text-xs text-gray-500">{subtask.date}</td>
-                                                                                    <td className="py-1 px-2 md:py-2 md:px-4 text-center">
-                                                                                        <input
-                                                                                            type="checkbox"
-                                                                                            checked={subtask.completed}
-                                                                                            onChange={() => handleToggleComplete(goal._id, index)}
-                                                                                            className="form-checkbox h-3 w-3 md:h-4 md:w-4 text-blue-600 rounded"
-                                                                                        />
-                                                                                    </td>
-                                                                                    <td className="py-1 px-2 md:py-2 md:px-4 text-center flex justify-center space-x-1">
-                                                                                        <button
-                                                                                            type="button"
-                                                                                            onClick={() => handleEditSubtaskClick(goal._id, index)}
-                                                                                            className="p-1 text-[10px] bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
-                                                                                        >
-                                                                                            Edit
-                                                                                        </button>
-                                                                                        <button
-                                                                                            type="button"
-                                                                                            onClick={() => handleDeleteSubtask(goal._id, index)}
-                                                                                            className="p-1 text-[10px] bg-red-500 text-white rounded-md hover:bg-red-600"
-                                                                                        >
-                                                                                            Delete
-                                                                                        </button>
-                                                                                    </td>
-                                                                                </>
-                                                                            )}
-                                                                        </tr>
-                                                                    ))}
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
+                                                    {expandedGoals[goal._id] && (
+                                                        <>
+                                                            <div className="mt-3 md:mt-4">
+                                                                <h4 className="font-bold text-gray-700 text-xs md:text-sm mb-1 md:mb-2">Add Subtask</h4>
+                                                                <div className="flex space-x-1 md:space-x-2">
+                                                                    <input
+                                                                        type="text"
+                                                                        value={subtaskInputs[goal._id]?.text || ''}
+                                                                        onChange={(e) => setSubtaskInputs({ ...subtaskInputs, [goal._id]: { ...subtaskInputs[goal._id], text: e.target.value } })}
+                                                                        placeholder="Enter subtask..."
+                                                                        className="w-full p-1 md:p-2 text-xs md:text-sm border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
+                                                                    />
+                                                                    <input
+                                                                        type="date"
+                                                                        value={subtaskInputs[goal._id]?.date || ''}
+                                                                        onChange={(e) => setSubtaskInputs({ ...subtaskInputs, [goal._id]: { ...subtaskInputs[goal._id], date: e.target.value } })}
+                                                                        className="w-full p-1 md:p-2 text-xs md:text-sm border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
+                                                                    />
+                                                                    <button
+                                                                        type="button"
+                                                                        onClick={() => handleAddSubtask(goal._id)}
+                                                                        className="p-1 md:p-2 bg-blue-500 text-white rounded-md md:rounded-lg hover:bg-blue-600 transition duration-200 text-xs"
+                                                                    >
+                                                                        Add
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            {goal.subtasks.length > 0 && (
+                                                                <div className="mt-3 md:mt-4 overflow-x-auto">
+                                                                    <h4 className="font-bold text-gray-700 text-xs md:text-sm mb-1 md:mb-2">Subtask List</h4>
+                                                                    <table className="min-w-full bg-white rounded-lg border border-gray-200 text-xs">
+                                                                        <thead>
+                                                                            <tr className="bg-gray-100 text-left font-semibold text-gray-600 uppercase tracking-wider">
+                                                                                <th className="py-1 px-2 md:py-2 md:px-4">Subtask</th>
+                                                                                <th className="py-1 px-2 md:py-2 md:px-4">Date</th>
+                                                                                <th className="py-1 px-2 md:py-2 md:px-4 text-center">Done</th>
+                                                                                <th className="py-1 px-2 md:py-2 md:px-4 text-center">Actions</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {goal.subtasks.map((subtask, index) => (
+                                                                                <tr key={index} className="border-t border-gray-200">
+                                                                                    {editingSubtaskId === `${goal._id}-${index}` ? (
+                                                                                        <>
+                                                                                            <td className="py-1 px-2 md:py-2 md:px-4">
+                                                                                                <input
+                                                                                                    type="text"
+                                                                                                    value={editSubtaskText}
+                                                                                                    onChange={(e) => setEditSubtaskText(e.target.value)}
+                                                                                                    className="w-full p-0.5 md:p-1 text-xs border border-gray-400 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 text-gray-900"
+                                                                                                />
+                                                                                            </td>
+                                                                                            <td className="py-1 px-2 md:py-2 md:px-4">
+                                                                                                <input
+                                                                                                    type="date"
+                                                                                                    value={editSubtaskDate}
+                                                                                                    onChange={(e) => setEditSubtaskDate(e.target.value)}
+                                                                                                    className="w-full p-0.5 md:p-1 text-xs border border-gray-400 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 text-gray-900"
+                                                                                                />
+                                                                                            </td>
+                                                                                            <td></td>
+                                                                                            <td className="py-1 px-2 md:py-2 md:px-4 flex justify-center space-x-1">
+                                                                                                <button
+                                                                                                    type="button"
+                                                                                                    onClick={() => handleSaveSubtaskEdit(goal._id, index)}
+                                                                                                    className="p-1 text-[10px] bg-indigo-500 text-white rounded-md hover:bg-indigo-600"
+                                                                                                >
+                                                                                                    Save
+                                                                                                </button>
+                                                                                                <button
+                                                                                                    type="button"
+                                                                                                    onClick={handleCancelSubtaskEdit}
+                                                                                                    className="p-1 text-[10px] bg-gray-500 text-white rounded-md hover:bg-gray-600"
+                                                                                                >
+                                                                                                    Cancel
+                                                                                                </button>
+                                                                                            </td>
+                                                                                        </>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            <td className="py-1 px-2 md:py-2 md:px-4 text-xs md:text-sm text-gray-700">{subtask.text}</td>
+                                                                                            <td className="py-1 px-2 md:py-2 md:px-4 text-xs text-gray-500">{subtask.date}</td>
+                                                                                            <td className="py-1 px-2 md:py-2 md:px-4 text-center">
+                                                                                                <input
+                                                                                                    type="checkbox"
+                                                                                                    checked={subtask.completed}
+                                                                                                    onChange={() => handleToggleComplete(goal._id, index)}
+                                                                                                    className="form-checkbox h-3 w-3 md:h-4 md:w-4 text-blue-600 rounded"
+                                                                                                />
+                                                                                            </td>
+                                                                                            <td className="py-1 px-2 md:py-2 md:px-4 text-center flex justify-center space-x-1">
+                                                                                                <button
+                                                                                                    type="button"
+                                                                                                    onClick={() => handleEditSubtaskClick(goal._id, index)}
+                                                                                                    className="p-1 text-[10px] bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
+                                                                                                >
+                                                                                                    Edit
+                                                                                                </button>
+                                                                                                <button
+                                                                                                    type="button"
+                                                                                                    onClick={() => handleDeleteSubtask(goal._id, index)}
+                                                                                                    className="p-1 text-[10px] bg-red-500 text-white rounded-md hover:bg-red-600"
+                                                                                                >
+                                                                                                    Delete
+                                                                                                </button>
+                                                                                            </td>
+                                                                                        </>
+                                                                                    )}
+                                                                                </tr>
+                                                                            ))}
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            )}
+                                                        </>
                                                     )}
                                                 </td>
                                                 <td className="py-2 px-3 md:py-3 md:px-4 text-gray-500 text-xs md:text-sm">
